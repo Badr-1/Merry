@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Military</string>
+    <string name="remaining_days">%d Days left</string>
+    <string name="passed_days">%d Days passed</string>
+    <string name="served_days">%d Days served</string>
+</resources>
