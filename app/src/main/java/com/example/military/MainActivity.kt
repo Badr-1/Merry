@@ -24,7 +24,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -40,10 +39,17 @@ import androidx.compose.ui.unit.sp
 import com.example.military.ui.theme.Brown
 import com.example.military.ui.theme.DarkGreen
 import com.example.military.ui.theme.LightGreen
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Locale
+
+val STARTING_DATE: LocalDate = LocalDate.of(2023, 10, 8)
+val SERVICE_START_DATE: LocalDate = LocalDate.of(2023, 12, 1)
+val END_DATE: LocalDate = LocalDate.of(2024, 12, 1)
+val TOTAL_DAYS: Long = END_DATE.toEpochDay() - SERVICE_START_DATE.toEpochDay()
+val DAYS_SERVED = LocalDate.now().toEpochDay() - SERVICE_START_DATE.toEpochDay().toInt()
+val DAYS_PASSED = LocalDate.now().toEpochDay() - STARTING_DATE.toEpochDay()
+val DAYS_LEFT = END_DATE.toEpochDay() - LocalDate.now().toEpochDay()
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +67,7 @@ const val ANIMATION_DURATION = 2000
 fun YearProgress(targetProgress: Float, modifier: Modifier = Modifier) {
     val animatedProgress by animateFloatAsState(
         targetValue = targetProgress,
-        animationSpec = tween(durationMillis = ANIMATION_DURATION)
+        animationSpec = tween(durationMillis = ANIMATION_DURATION), label = ""
     )
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         CircularProgressIndicator(
@@ -100,29 +106,19 @@ fun MilitaryScreen(modifier: Modifier = Modifier) {
     var progress by remember { mutableFloatStateOf(0f) }
     var passedDaysProgress by remember { mutableIntStateOf(0) }
     var servedDaysProgress by remember { mutableIntStateOf(0) }
-    var leftDaysProgress by remember { mutableIntStateOf(0) }
+    var leftDaysProgress by remember { mutableIntStateOf(TOTAL_DAYS.toInt()) }
     val coroutineScope = rememberCoroutineScope()
-    val targetProgress = calculateProgress()
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            while (progress < targetProgress) {
-                progress += 0.0001f
-            }
-        }
-        coroutineScope.launch {
-            while (passedDaysProgress < getPassedDays()) {
+            while (passedDaysProgress < DAYS_PASSED) {
                 passedDaysProgress += 1
-            }
-        }
-        coroutineScope.launch {
-            while (servedDaysProgress < getServedDays()) {
+                if(DAYS_PASSED - DAYS_SERVED >= passedDaysProgress)
+                    continue
                 servedDaysProgress += 1
-            }
-        }
-        coroutineScope.launch {
-            while (leftDaysProgress < getLeftDays()) {
-                leftDaysProgress += 1
+                leftDaysProgress -= 1
+                progress =(servedDaysProgress * 1f / TOTAL_DAYS)
+                Log.wtf(TAG,progress.toString())
             }
         }
     }
@@ -162,18 +158,21 @@ fun Details(
     Column(modifier = modifier) {
         val leftDaysAnimated by animateIntAsState(
             targetValue = leftDays,
-            animationSpec = tween(durationMillis = ANIMATION_DURATION)
+            animationSpec = tween(durationMillis = ANIMATION_DURATION), label = "days_left"
         )
         val passedDaysAnimated by animateIntAsState(
             targetValue = passedDays,
-            animationSpec = tween(durationMillis = ANIMATION_DURATION)
+            animationSpec = tween(durationMillis = ANIMATION_DURATION), label = "days_passed"
         )
         val servedDaysAnimated by animateIntAsState(
             targetValue = servedDays,
-            animationSpec = tween(durationMillis = ANIMATION_DURATION)
+            animationSpec = tween(durationMillis = ANIMATION_DURATION), label = "days_served"
         )
         Text(
-            stringResource(id = R.string.passed_days, passedDaysAnimated.toString().padStart(3,'0')),
+            stringResource(
+                id = R.string.passed_days,
+                passedDaysAnimated.toString().padStart(3, '0')
+            ),
             color = LightGreen,
             fontWeight = FontWeight.Normal,
             fontSize = 32.sp,
@@ -181,7 +180,7 @@ fun Details(
             modifier = Modifier.padding(8.dp)
         )
         Text(
-            stringResource(R.string.served_days, servedDaysAnimated.toString().padStart(3,'0')),
+            stringResource(R.string.served_days, servedDaysAnimated.toString().padStart(3, '0')),
             color = LightGreen,
             fontWeight = FontWeight.Normal,
             fontSize = 32.sp,
@@ -190,7 +189,7 @@ fun Details(
 
         )
         Text(
-            stringResource(R.string.left_days, leftDaysAnimated.toString().padStart(3,'0')),
+            stringResource(R.string.left_days, leftDaysAnimated.toString().padStart(3, '0')),
             color = LightGreen,
             fontWeight = FontWeight.Normal,
             fontSize = 32.sp,
@@ -201,34 +200,3 @@ fun Details(
 
 }
 
-
-fun calculateProgress(): Float {
-    val startDate = LocalDate.of(2023, 12, 1)
-    val today = LocalDate.now()
-    val daysPassed = today.toEpochDay() - startDate.toEpochDay()
-    val progress = (daysPassed / 365.0f) // Assuming 365 days in a year
-    return progress.coerceIn(0f, 1f)
-}
-
-fun getLeftDays(): Int {
-    val endDate = LocalDate.of(2024, 12, 1)
-    val today = LocalDate.now()
-    val daysRemaining = endDate.toEpochDay() - today.toEpochDay()
-    return daysRemaining.toInt()
-}
-
-fun getServedDays(): Int {
-    val startDate = LocalDate.of(2023, 12, 1)
-    val today = LocalDate.now()
-    val daysServed = today.toEpochDay() - startDate.toEpochDay()
-    return daysServed.toInt()
-}
-
-fun getPassedDays(): Int {
-    val endDate = LocalDate.of(2023, 10, 8)
-    val today = LocalDate.now()
-    val daysPassed = today.toEpochDay() - endDate.toEpochDay()
-    return daysPassed.toInt()
-
-
-}
