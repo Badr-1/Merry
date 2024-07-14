@@ -1,5 +1,6 @@
 package com.example.military
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -20,6 +21,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -36,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 import com.example.military.ui.theme.Brown
 import com.example.military.ui.theme.DarkGreen
 import com.example.military.ui.theme.LightGreen
@@ -43,13 +46,13 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Locale
 
-val STARTING_DATE: LocalDate = LocalDate.of(2023, 10, 8)
-val SERVICE_START_DATE: LocalDate = LocalDate.of(2023, 12, 1)
-val END_DATE: LocalDate = LocalDate.of(2024, 12, 1)
-val TOTAL_DAYS: Long = END_DATE.toEpochDay() - SERVICE_START_DATE.toEpochDay()
-val DAYS_SERVED = LocalDate.now().toEpochDay() - SERVICE_START_DATE.toEpochDay().toInt()
-val DAYS_PASSED = LocalDate.now().toEpochDay() - STARTING_DATE.toEpochDay()
-val DAYS_LEFT = END_DATE.toEpochDay() - LocalDate.now().toEpochDay()
+val STARTING_DATE: Long = LocalDate.of(2023, 10, 8).toEpochDay()
+val SERVICE_START_DATE: Long = LocalDate.of(2023, 12, 1).toEpochDay()
+val END_DATE: Long = LocalDate.of(2024, 12, 1).toEpochDay()
+val TOTAL_DAYS: Long = END_DATE - SERVICE_START_DATE
+var TODAY = LocalDate.now().toEpochDay()
+val DAYS_SERVED = TODAY - SERVICE_START_DATE
+val DAYS_PASSED = TODAY - STARTING_DATE
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,25 +104,36 @@ fun PreviewYearProgress() {
 const val TAG = "MainActivity"
 
 @Composable
-@Preview(showBackground = true)
 fun MilitaryScreen(modifier: Modifier = Modifier) {
     var progress by remember { mutableFloatStateOf(0f) }
     var passedDaysProgress by remember { mutableIntStateOf(0) }
     var servedDaysProgress by remember { mutableIntStateOf(0) }
     var leftDaysProgress by remember { mutableIntStateOf(TOTAL_DAYS.toInt()) }
     val coroutineScope = rememberCoroutineScope()
-
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             while (passedDaysProgress < DAYS_PASSED) {
                 passedDaysProgress += 1
-                if(DAYS_PASSED - DAYS_SERVED >= passedDaysProgress)
+                if (DAYS_PASSED - DAYS_SERVED >= passedDaysProgress)
                     continue
                 servedDaysProgress += 1
                 leftDaysProgress -= 1
-                progress =(servedDaysProgress * 1f / TOTAL_DAYS)
-                Log.wtf(TAG,progress.toString())
+                progress = (servedDaysProgress * 1f / TOTAL_DAYS)
             }
+        }
+    }
+    DisposableEffect(Unit) {
+        val receiver = registerDateChangeReceiver(context) {
+            TODAY = LocalDate.now().toEpochDay()
+            passedDaysProgress = (TODAY - STARTING_DATE).toInt()
+            servedDaysProgress = (TODAY - SERVICE_START_DATE).toInt()
+            leftDaysProgress = (END_DATE - TODAY).toInt()
+            progress = (servedDaysProgress * 1f / TOTAL_DAYS)
+
+        }
+        onDispose {
+            unregisterDateChangeReceiver(context, receiver)
         }
     }
     Column(
