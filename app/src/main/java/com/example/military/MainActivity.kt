@@ -39,9 +39,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
+import androidx.glance.appwidget.updateAll
 import com.example.military.ui.theme.Brown
 import com.example.military.ui.theme.DarkGreen
 import com.example.military.ui.theme.LightGreen
+import com.example.military.widget.MilitaryAppWidget
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Locale
@@ -130,7 +134,9 @@ fun MilitaryScreen(modifier: Modifier = Modifier) {
             servedDaysProgress = (TODAY - SERVICE_START_DATE).toInt()
             leftDaysProgress = (END_DATE - TODAY).toInt()
             progress = (servedDaysProgress * 1f / TOTAL_DAYS)
-
+            CoroutineScope(Dispatchers.Default).launch {
+                MilitaryAppWidget().updateAll(context)
+            }
         }
         onDispose {
             unregisterDateChangeReceiver(context, receiver)
