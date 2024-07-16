@@ -161,10 +161,7 @@ fun YearProgress(targetProgress: Float, modifier: Modifier = Modifier) {
                 progress = { animatedProgress },
                 modifier = Modifier
                     .size(300.dp),
-//                    .background(LightGreen, CircleShape),
-//                trackColor = LightGreen,
-//                color = Brown,
-                strokeWidth = 10.dp,
+                strokeWidth = 15.dp,
                 strokeCap = StrokeCap.Round,
 
                 )

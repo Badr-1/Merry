@@ -25,7 +25,7 @@ val bodyFontFamily = FontFamily(
 
 val displayFontFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("JetBrains Mono"),
+        googleFont = GoogleFont("Kode Mono"),
         fontProvider = provider,
     )
 )
@@ -34,10 +34,10 @@ val displayFontFamily = FontFamily(
 val baseline = Typography()
 
 val MilitaryAppTypography = Typography(
-    displayLarge = baseline.displayLarge.copy(fontFamily = displayFontFamily),
+    displayLarge = baseline.displayLarge.copy(fontFamily = displayFontFamily).copy(fontWeight = FontWeight(700)),
     displayMedium = baseline.displayMedium.copy(fontFamily = displayFontFamily),
     displaySmall = baseline.displaySmall.copy(fontFamily = displayFontFamily),
-    headlineLarge = baseline.headlineLarge.copy(fontFamily = displayFontFamily),
+    headlineLarge = baseline.headlineLarge.copy(fontFamily = displayFontFamily).copy(fontWeight = FontWeight(700)),
     headlineMedium = baseline.headlineMedium.copy(fontFamily = displayFontFamily),
     headlineSmall = baseline.headlineSmall.copy(fontFamily = displayFontFamily),
     titleLarge = baseline.titleLarge.copy(fontFamily = displayFontFamily),
