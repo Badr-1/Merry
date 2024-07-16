@@ -1,4 +1,4 @@
-package com.example.military
+package com.example.merry
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -49,13 +49,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import androidx.glance.appwidget.updateAll
-import com.example.military.ui.theme.MilitaryTheme
-import com.example.military.widget.MilitaryAppWidget
+import com.example.merry.ui.theme.MerryTheme
+import com.example.merry.widget.MerryAppWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import com.example.military.ui.theme.MilitaryAppTypography
+import com.example.merry.ui.theme.MilitaryAppTypography
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.ZoneId
@@ -87,7 +87,7 @@ class MainActivity : ComponentActivity() {
 @Preview(name = "darkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun MilitaryScreen() {
-    MilitaryTheme {
+    MerryTheme {
         Surface {
             MilitaryContent()
         }
@@ -123,7 +123,7 @@ fun MilitaryContent() {
             leftDaysProgress = (END_DATE - TODAY).toInt()
             progress = (servedDaysProgress * 1f / TOTAL_DAYS)
             CoroutineScope(Dispatchers.Default).launch {
-                MilitaryAppWidget().updateAll(context)
+                MerryAppWidget().updateAll(context)
             }
         }
         onDispose {
@@ -285,7 +285,7 @@ fun SettingsScreen() {
     val serviceStartState by remember { mutableStateOf(DatePickerState(Locale.getDefault())) }
     var serviceEndDate by remember { mutableStateOf("") }
     val serviceEndState by remember { mutableStateOf(DatePickerState(Locale.getDefault())) }
-    MilitaryTheme {
+    MerryTheme {
         Surface {
             Column(
                 modifier = Modifier

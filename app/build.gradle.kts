@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.military"
+    namespace = "com.example.merry"
     compileSdk = 34
 
     defaultConfig {

@@ -1,4 +1,4 @@
-package com.example.military
+package com.example.merry
 
 import android.content.BroadcastReceiver
 import android.content.Context

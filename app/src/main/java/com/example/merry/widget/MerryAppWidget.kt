@@ -1,4 +1,4 @@
-package com.example.military.widget
+package com.example.merry.widget
 
 import android.content.Context
 import androidx.compose.ui.unit.sp
@@ -20,10 +20,10 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import com.example.military.END_DATE
-import com.example.military.TODAY
-import com.example.military.ui.theme.DarkGreen
-import com.example.military.ui.theme.LightGreen
+import com.example.merry.END_DATE
+import com.example.merry.TODAY
+import com.example.merry.ui.theme.DarkGreen
+import com.example.merry.ui.theme.LightGreen
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File
@@ -38,7 +38,7 @@ object DaysLeftDataStore : DataStore<Long> {
 
 }
 
-class MilitaryAppWidget : GlanceAppWidget() {
+class MerryAppWidget : GlanceAppWidget() {
     override val stateDefinition: GlanceStateDefinition<Long>
         get() = object : GlanceStateDefinition<Long> {
             override suspend fun getDataStore(context: Context, fileKey: String): DataStore<Long> {

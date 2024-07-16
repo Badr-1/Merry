@@ -1,4 +1,4 @@
-package com.example.military.ui.theme
+package com.example.merry.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
