@@ -3,4 +3,10 @@
     <string name="left_days">%s Days left</string>
     <string name="passed_days">%s Days passed</string>
     <string name="served_days">%s Days served</string>
+    <string name="camp_start_date">Camp Start Date</string>
+    <string name="service_start_date">Service Start Date</string>
+    <string name="service_end_date">Service End Date</string>
+    <string name="select_date">Select</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
 </resources>

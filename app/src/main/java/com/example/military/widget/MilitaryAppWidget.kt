@@ -39,7 +39,7 @@ object DaysLeftDataStore : DataStore<Long> {
 }
 
 class MilitaryAppWidget : GlanceAppWidget() {
-    override val stateDefinition: GlanceStateDefinition<Long>?
+    override val stateDefinition: GlanceStateDefinition<Long>
         get() = object : GlanceStateDefinition<Long> {
             override suspend fun getDataStore(context: Context, fileKey: String): DataStore<Long> {
                 return DaysLeftDataStore
