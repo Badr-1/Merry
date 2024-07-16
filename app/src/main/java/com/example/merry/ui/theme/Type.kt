@@ -31,7 +31,7 @@ val displayFontFamily = FontFamily(
 // Default Material 3 typography values
 val baseline = Typography()
 
-val MilitaryAppTypography = Typography(
+val MerryAppTypography = Typography(
     displayLarge = baseline.displayLarge.copy(fontFamily = displayFontFamily).copy(fontWeight = FontWeight(700)),
     displayMedium = baseline.displayMedium.copy(fontFamily = displayFontFamily),
     displaySmall = baseline.displaySmall.copy(fontFamily = displayFontFamily),

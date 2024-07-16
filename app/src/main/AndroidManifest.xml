@@ -43,7 +43,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/military_widget_info" />
+                android:resource="@xml/merry_widget_info" />
         </receiver>
     </application>
 

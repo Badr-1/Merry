@@ -105,7 +105,7 @@ fun MerryTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = MilitaryAppTypography,
+        typography = MerryAppTypography,
         content = content
     )
 }

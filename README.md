@@ -15,9 +15,11 @@ Then It Extracts Four Metrics:
 ## Screenshots
 
 ### LightMode
-![LightMode](Screenshots/LightMode.jpg)
+![Main](Screenshots/LightMode-MainScreen.jpg)
+![Settings](Screenshots/LightMode-SettingsScreen.jpg)
 
 ### DarkMode
-![DarkMode](Screenshots/DarkMode.jpg)
+![Main](Screenshots/DarkMode-MainScreen.jpg)
+![Settings](Screenshots/DarkMode-SettingsScreen.jpg)
 
 

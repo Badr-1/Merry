@@ -20,17 +20,25 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import com.example.merry.END_DATE
-import com.example.merry.TODAY
+import com.example.merry.isThereAnyPreferences
+import com.example.merry.readPreferences
 import com.example.merry.ui.theme.DarkGreen
 import com.example.merry.ui.theme.LightGreen
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File
+import java.time.LocalDate
 
-object DaysLeftDataStore : DataStore<Long> {
+class DaysLeftDataStore(private val context: Context) : DataStore<Long> {
     override val data: Flow<Long>
-        get() = flow { emit(END_DATE - TODAY) }
+        get() = flow {
+            emit(
+                if (isThereAnyPreferences(context))
+                    readPreferences(context).serviceEndDate - LocalDate.now().toEpochDay()
+                else
+                    0
+            )
+        }
 
     override suspend fun updateData(transform: suspend (t: Long) -> Long): Long {
         TODO("Not yet implemented")
@@ -42,7 +50,7 @@ class MerryAppWidget : GlanceAppWidget() {
     override val stateDefinition: GlanceStateDefinition<Long>
         get() = object : GlanceStateDefinition<Long> {
             override suspend fun getDataStore(context: Context, fileKey: String): DataStore<Long> {
-                return DaysLeftDataStore
+                return DaysLeftDataStore(context)
             }
 
             override fun getLocation(context: Context, fileKey: String): File {
