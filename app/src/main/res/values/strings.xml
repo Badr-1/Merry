@@ -13,4 +13,6 @@
     <string name="metrics">Metrics</string>
     <string name="challenge">Challenge</string>
     <string name="the_100_merry_challenge">The 100 Merry Challenge</string>
+    <string name="congrats_title">You\'ve Finished Your Service!</string>
+    <string name="congrats_subtitle">You\'re Now Free!</string>
 </resources>

@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import com.example.merry.screens.FinishingScreen
 import com.example.merry.screens.MainScreen
 import com.example.merry.screens.SettingsScreen
 import com.example.merry.screens.TheHundredDaysChallengeScreen
@@ -31,13 +32,17 @@ fun MerryApp() {
     val merryDates = readPreferences(context)
     var isSettingsVisible by remember { mutableStateOf(!isThereAnyPreferences(context)) }
     var viewChallenge by remember { mutableStateOf(false) }
-    if (isSettingsVisible) {
-        SettingsScreen(onUpdate = { isSettingsVisible = false })
-    } else if (merryDates.leftDays <= 100 && viewChallenge) {
-        TheHundredDaysChallengeScreen(merryDates, onMetricsPressed = { viewChallenge = false })
-    } else {
-        MainScreen(
-            onSettingsPressed = { isSettingsVisible = true },
-            onChallengePressed = { viewChallenge = true })
+    if (merryDates.leftDays <= 0)
+        FinishingScreen()
+    else {
+        if (isSettingsVisible) {
+            SettingsScreen(onUpdate = { isSettingsVisible = false })
+        } else if (merryDates.leftDays <= 100 && viewChallenge) {
+            TheHundredDaysChallengeScreen(merryDates, onMetricsPressed = { viewChallenge = false })
+        } else {
+            MainScreen(
+                onSettingsPressed = { isSettingsVisible = true },
+                onChallengePressed = { viewChallenge = true })
+        }
     }
 }
