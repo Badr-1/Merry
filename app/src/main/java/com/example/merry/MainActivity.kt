@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.example.merry.screens.MainScreen
 import com.example.merry.screens.SettingsScreen
+import com.example.merry.screens.TheHundredDaysChallengeScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -23,13 +24,20 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun MerryApp() {
     val context = LocalContext.current
+    val merryDates = readPreferences(context)
     var isSettingsVisible by remember { mutableStateOf(!isThereAnyPreferences(context)) }
+    var viewChallenge by remember { mutableStateOf(false) }
     if (isSettingsVisible) {
         SettingsScreen(onUpdate = { isSettingsVisible = false })
+    } else if (merryDates.leftDays <= 100 && viewChallenge) {
+        TheHundredDaysChallengeScreen(merryDates, onMetricsPressed = { viewChallenge = false })
     } else {
-        MainScreen(onUpdate = { isSettingsVisible = true })
+        MainScreen(
+            onSettingsPressed = { isSettingsVisible = true },
+            onChallengePressed = { viewChallenge = true })
     }
 }

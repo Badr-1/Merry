@@ -50,7 +50,7 @@ import java.util.Locale
 @Preview
 @Preview(name = "darkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun MainScreen(onUpdate: () -> Unit = {}) {
+fun MainScreen(onSettingsPressed: () -> Unit = {}, onChallengePressed: () -> Unit = {}) {
     val context = LocalContext.current
     val merryDates = readPreferences(context)
     var progress by remember { mutableFloatStateOf(0f) }
@@ -102,11 +102,20 @@ fun MainScreen(onUpdate: () -> Unit = {}) {
                     servedDays = servedDaysProgress
                 )
                 Spacer(modifier = Modifier.height(64.dp))
-                Button(onClick = onUpdate) {
+                Button(onClick = onSettingsPressed) {
                     Text(
                         text = stringResource(R.string.settings),
                         style = MerryAppTypography.bodyLarge
                     )
+                }
+                if(merryDates.leftDays <= 100) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(onClick = onChallengePressed) {
+                        Text(
+                            text = stringResource(R.string.challenge),
+                            style = MerryAppTypography.bodyLarge
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(64.dp))
             }
