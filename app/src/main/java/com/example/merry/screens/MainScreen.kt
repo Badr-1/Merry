@@ -47,10 +47,8 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Locale
 
-@Preview
-@Preview(name = "darkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun MainScreen(onSettingsPressed: () -> Unit = {}, onChallengePressed: () -> Unit = {}) {
+fun MainScreen(onSettingsPressed: () -> Unit, onChallengePressed: () -> Unit) {
     val context = LocalContext.current
     val merryDates = readPreferences(context)
     var progress by remember { mutableFloatStateOf(0f) }
@@ -78,6 +76,8 @@ fun MainScreen(onSettingsPressed: () -> Unit = {}, onChallengePressed: () -> Uni
             servedDaysProgress = merryDates.servedDays.toInt()
             leftDaysProgress = merryDates.leftDays.toInt()
             progress = (servedDaysProgress * 1f / merryDates.totalDays)
+            if(leftDaysProgress <= 100)
+                onChallengePressed()
             CoroutineScope(Dispatchers.Default).launch {
                 MerryAppWidget().updateAll(context)
             }
