@@ -45,10 +45,8 @@ import java.util.Date
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Preview(name = "darkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun SettingsScreen(onUpdate: () -> Unit = {}) {
+fun SettingsScreen(onUpdate: () -> Unit) {
     val context = LocalContext.current
     val merryDates = readPreferences(context)
     var campStartDate by remember { mutableStateOf(merryDates.campStartDate.toDateString()) }

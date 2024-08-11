@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.example.merry.screens.FinishingScreen
@@ -30,19 +30,34 @@ class MainActivity : ComponentActivity() {
 fun MerryApp() {
     val context = LocalContext.current
     val merryDates = readPreferences(context)
-    var isSettingsVisible by remember { mutableStateOf(!isThereAnyPreferences(context)) }
-    var viewChallenge by remember { mutableStateOf(false) }
-    if (merryDates.leftDays <= 0)
-        FinishingScreen()
-    else {
-        if (isSettingsVisible) {
-            SettingsScreen(onUpdate = { isSettingsVisible = false })
-        } else if (merryDates.leftDays <= 100 && viewChallenge) {
-            TheHundredDaysChallengeScreen(merryDates, onMetricsPressed = { viewChallenge = false })
-        } else {
-            MainScreen(
-                onSettingsPressed = { isSettingsVisible = true },
-                onChallengePressed = { viewChallenge = true })
-        }
+    var screen by rememberSaveable {
+        mutableStateOf(
+            if (!isThereAnyPreferences(context))
+                Screens.SETTINGS
+            else {
+                if (merryDates.leftDays <= 0)
+                    Screens.FINISHING
+                else if (merryDates.leftDays <= 100)
+                    Screens.CHALLENGE
+                else
+                    Screens.MAIN
+            }
+        )
+    }
+    when (screen) {
+        Screens.MAIN -> MainScreen(
+            onSettingsPressed = { screen = Screens.SETTINGS },
+            onChallengePressed = { screen = Screens.CHALLENGE }
+        )
+        Screens.SETTINGS -> SettingsScreen(
+            onUpdate = {
+                screen = Screens.MAIN
+            }
+        )
+        Screens.CHALLENGE -> TheHundredDaysChallengeScreen(
+            merryDates,
+            onMetricsPressed = { screen = Screens.MAIN }
+        )
+        Screens.FINISHING -> FinishingScreen()
     }
 }
