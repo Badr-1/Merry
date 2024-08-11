@@ -12,8 +12,8 @@
       "filters": [],
       "attributes": [],
       "versionCode": 1,
-      "versionName": "1.0",
-      "outputFile": "merry-1.0-release.apk"
+      "versionName": "2.0",
+      "outputFile": "merry-2.0-release.apk"
     }
   ],
   "elementType": "File",
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/merry-1.0-release.dm"
+        "baselineProfiles/1/merry-2.0-release.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/merry-1.0-release.dm"
+        "baselineProfiles/0/merry-2.0-release.dm"
       ]
     }
   ],
