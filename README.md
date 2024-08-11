@@ -14,12 +14,28 @@ Then It Extracts Four Metrics:
 
 ## Screenshots
 
-### LightMode
-![Main](Screenshots/LightMode-MainScreen.jpg)
-![Settings](Screenshots/LightMode-SettingsScreen.jpg)
 
-### DarkMode
-![Main](Screenshots/DarkMode-MainScreen.jpg)
-![Settings](Screenshots/DarkMode-SettingsScreen.jpg)
+### English
+#### Normal
+![Main](Screenshots/Eng/MainScreen.jpg)
+![Settings](Screenshots/Eng/SettingsScreen.jpg)
+
+#### When There's less than or equal 100 Days
+![Main-Challenge](Screenshots/Eng/MainScreen-Pass-Hundred-Days.jpg)
+![Challenge](Screenshots/Eng/ChallengeScreen.jpg)
+
+#### Completion
+![Finishing](Screenshots/Eng/FinishingScreen.jpg)
 
 
+### Arabic
+#### Normal
+![Main](Screenshots/Ar/MainScreen.jpg)
+![Settings](Screenshots/Ar/SettingsScreen.jpg)
+
+#### When There's less than or equal 100 Days
+![Main-Challenge](Screenshots/Ar/MainScreen-Pass-Hundred-Days.jpg)
+![Challenge](Screenshots/Ar/ChallengeScreen.jpg)
+
+#### Completion
+![Finishing](Screenshots/Ar/FinishingScreen.jpg)

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ميرى</string>
+    <string name="left_days">%s يوم باقى</string>
+    <string name="passed_days">%s يوم عدى</string>
+    <string name="served_days">%s يوم خدمة</string>
+    <string name="camp_start_date">تاريخ بداية مركز التدريب</string>
+    <string name="service_start_date">تاريخ بداية الخدمة</string>
+    <string name="service_end_date">تاريخ نهاية الخدمة</string>
+    <string name="select_date">اختر</string>
+    <string name="cancel">إلغاء</string>
+    <string name="done">تمام</string>
+    <string name="settings">الإعدادت</string>
+    <string name="metrics">الرئيسية</string>
+    <string name="challenge">تحدى</string>
+    <string name="the_100_merry_challenge">تلاتة منه مفيش منه</string>
+    <string name="congrats_title">كفارة يا دفعة!</string>
+    <string name="congrats_subtitle">مفيش منه!</string>
+</resources>
