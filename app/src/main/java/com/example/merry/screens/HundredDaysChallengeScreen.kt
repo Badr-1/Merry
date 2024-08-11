@@ -34,7 +34,7 @@ import com.example.merry.unregisterDateChangeReceiver
 import java.time.LocalDate
 
 @Composable
-fun TheHundredDaysChallengeScreen(merryDates: MerryDates, onMetricsPressed: () -> Unit = {}) {
+fun TheHundredDaysChallengeScreen(merryDates: MerryDates, onMetricsPressed: () -> Unit) {
     val context = LocalContext.current
     DisposableEffect(Unit) {
         val receiver = registerDateChangeReceiver(context) {
@@ -62,7 +62,7 @@ fun TheHundredDaysChallengeScreen(merryDates: MerryDates, onMetricsPressed: () -
                     Row {
                         if ((i * 10) % 20 == 0)
                             Spacer(Modifier.width(17.dp))
-                        TenDaysRow(1 + (i - 1) * 10..i * 10, 100 - merryDates.leftDays.toInt() + 1)
+                        TenDaysRow(1 + (i - 1) * 10..i * 10, 100 - merryDates.leftDays.toInt())
                     }
                     Spacer(Modifier.height(5.dp))
                 }
